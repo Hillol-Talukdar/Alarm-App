@@ -16,7 +16,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="message" />
+            android:text="message"
+            android:layout_toRightOf="@id/alarmIcon"
+            android:layout_marginLeft="15dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:id="@+id/alarmMessage"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="time"
+            android:layout_toRightOf="@id/alarmMessage"
+            android:layout_marginLeft="15dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:id="@+id/alarmTime"/>
     </RelativeLayout>
     
 </RelativeLayout>

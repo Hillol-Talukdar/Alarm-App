@@ -1,6 +1,7 @@
 package com.example.alarmapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnAddNewAlarm;
     private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
 
     private static ArrayList<Alarm> allAlarms;
 
@@ -29,12 +31,19 @@ public class MainActivity extends AppCompatActivity {
 //        Calendar calendar = Calendar.getInstance();
 //        Log.d(TAG, "onCreate: Year: " + calendar.get(Calendar.YEAR));
 
+        adapter = new RecyclerViewAdapter();
+
         if(null == allAlarms) {
             allAlarms = new ArrayList<>();
         }
 
         btnAddNewAlarm = (Button) findViewById(R.id.btnAddNewAlarm);
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter.setAlarms(allAlarms);
+
 
         btnAddNewAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Alarm alarm = new Alarm(hours, minutes, "Hello from the other side");
                         allAlarms.add(alarm);
+                        adapter.setAlarms(allAlarms);
 
                         startActivity(alarmIntent);
                     }
