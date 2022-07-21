@@ -1,5 +1,6 @@
 package com.example.alarmapp;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+interface RecyclerInterface {
+    void onItemClicked(Alarm item);
+}
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
 
     private ArrayList<Alarm> alarms = new ArrayList<>();
+    final RecyclerInterface callback;
 
-    public RecyclerViewAdapter () {
+    public RecyclerViewAdapter(RecyclerInterface callback) {
 
+        this.callback = callback;
     }
 
     @NonNull
@@ -31,11 +38,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Log.d(TAG, "onBindViewHolder: called");
 
         holder.alarmMessage.setText(alarms.get(position).getMessage());
         String time = alarms.get(position).getHours() + " : " + alarms.get(position).getMinutes();
+
+        holder.alarmTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.onItemClicked(alarms.get(position));
+            }
+        });
 
         holder.alarmTime.setText(time);
     }
@@ -51,7 +65,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             alarmMessage = (TextView) itemView.findViewById(R.id.alarmMessage);
             alarmTime = (TextView) itemView.findViewById(R.id.alarmTime);
         }

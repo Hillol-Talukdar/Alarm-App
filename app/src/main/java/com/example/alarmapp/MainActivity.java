@@ -10,9 +10,9 @@ import android.provider.AlarmClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -31,7 +31,12 @@ public class MainActivity extends AppCompatActivity {
 //        Calendar calendar = Calendar.getInstance();
 //        Log.d(TAG, "onCreate: Year: " + calendar.get(Calendar.YEAR));
 
-        adapter = new RecyclerViewAdapter();
+        adapter = new RecyclerViewAdapter(new RecyclerInterface() {
+            @Override
+            public void onItemClicked(Alarm item) {
+                Toast.makeText(MainActivity.this, "Alarm time clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         if(null == allAlarms) {
             allAlarms = new ArrayList<>();
